@@ -10,7 +10,7 @@ public class Vehiculo {
     private String marca;
     private String modelo;
     private int anio;
-    private Cliente cliente; // Asociación con Cliente
+    private Cliente cliente; 
 
     public Vehiculo() {}
 

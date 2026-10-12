@@ -12,11 +12,10 @@ public class OrdenTrabajo {
     private Vehiculo vehiculo;
     private Mecanico mecanico;
     private String descripcionProblema;
-    private String estado; // PENDIENTE, EN PROCESO, FINALIZADA, CANCELADA
+    private String estado; 
     private Date fechaCreacion;
     private double totalReparacion;
-    
-    // Composición: Una orden contiene colecciones de sus detalles
+
     private ArrayList<DetalleServicio> listaServicio;
     private ArrayList<DetalleRepuesto> listaRepuesto;
 

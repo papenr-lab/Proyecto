@@ -6,7 +6,6 @@ package com.mycompany.tallermecanico;
 
 import Modelo.Cliente;
 import Modelo.Mecanico;
-import Modelo.Vehiculo;
 import Modelo.Repuesto;
 import Modelo.Servicio;
 import Modelo.OrdenTrabajo;

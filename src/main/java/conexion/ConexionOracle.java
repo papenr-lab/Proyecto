@@ -27,4 +27,8 @@ public class ConexionOracle {
         }
         return conexion;
     }
+
+    public static Connection getConexion() {
+        return obtenerConexio();
+    }
 }

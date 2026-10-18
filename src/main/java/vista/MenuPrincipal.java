@@ -37,8 +37,8 @@ public class MenuPrincipal extends JFrame {
         panel.add(new JScrollPane(new JTable(modeloTabla)), BorderLayout.CENTER);
         JButton botonExportar = new JButton("Exportar Reporte a CSV");
         botonExportar.setFont(new Font("Arial", Font.BOLD, 14));
-        botonExportar.setBackground(new Color(34, 139, 34)); // Verde elegante
-        botonExportar.setForeground(Color.WHITE); // Letras blancas
+        botonExportar.setBackground(new Color(34, 139, 34)); 
+        botonExportar.setForeground(Color.WHITE); 
         botonExportar.setFocusPainted(false);
         botonExportar.addActionListener(e -> {
             exportarTablaToCSV("reporte_taller_mecanico.csv");

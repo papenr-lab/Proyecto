@@ -28,7 +28,7 @@ public class RepuestoDAO {
                 double precioUnitario = rs.getDouble("precio");
 
                 if (stockDisponible < cantidadRequerida || cantidadRequerida <= 0) {
-                    System.out.println("Inventario insuficiente o cantidad inválida.");
+                    System.out.println("Inventario insuficiente o cantidad invalida.");
                     return false; 
                 }
 
@@ -54,11 +54,13 @@ public class RepuestoDAO {
                 conn.commit();
                 return true;
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             if (conn != null) {
                 try {
                     conn.rollback(); 
-                } catch (SQLException ex) {
+                } 
+                catch (SQLException ex) {
                     System.err.println("Error en el rollback: " + ex.getMessage());
                 }
             }
@@ -67,7 +69,7 @@ public class RepuestoDAO {
                 try {
                     conn.close(); 
                 } catch (SQLException ex) {
-                    System.err.println("Error al cerrar la conexión: " + ex.getMessage());
+                    System.err.println("Error al cerrar la conexion: " + ex.getMessage());
                 }
             }
         }

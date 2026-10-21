@@ -15,16 +15,15 @@ public class MenuPrincipal extends JFrame {
     private final DefaultTableModel modeloTabla;
 
     public MenuPrincipal() {
-        setTitle("Sistema de Gestión - Taller El Último Arranque");
+        setTitle("Sistema de Gestion - Taller El Último Arranque");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         String[] columnas = {"ID", "Nombre", "Tipo", "Precio", "Disponibilidad"};
         modeloTabla = new DefaultTableModel(columnas, 0);
-
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Reportes Obligatorios", crearPanelTabla());
-        tabbedPane.addTab("Órdenes", crearPanelOrdenes());
+        tabbedPane.addTab("Órdenes", new PanelOrdenesTrabajo());
         tabbedPane.addTab("Reportes y Consultas", new PanelReportes());
 
         add(tabbedPane, BorderLayout.CENTER);
@@ -43,7 +42,7 @@ public class MenuPrincipal extends JFrame {
         botonExportar.addActionListener(e -> {
             exportarTablaToCSV("reporte_taller_mecanico.csv");
             JOptionPane.showMessageDialog(this, 
-                    "¡Archivo CSV fue generado con éxito en la raíz del proyecto!", 
+                    "¡Archivo CSV fue generado con exito en la raiz del proyecto!", 
                     "Exportación Exitosa", 
                     JOptionPane.INFORMATION_MESSAGE);
         });
@@ -55,7 +54,7 @@ public class MenuPrincipal extends JFrame {
 
     private JPanel crearPanelOrdenes() {
         JPanel panel = new JPanel();
-        panel.add(new JLabel("Módulo de Órdenes de Trabajo y Repuestos"));
+        panel.add(new JLabel("Modulo de Ordenes de Trabajo y Repuestos"));
         return panel;
     }
 

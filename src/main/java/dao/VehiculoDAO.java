@@ -36,17 +36,17 @@ public class VehiculoDAO {
                 try {
                     conn.rollback();
                 } catch (SQLException ex) {
-                    System.err.println("Error en el rollback de vehículo: " + ex.getMessage());
+                    System.err.println("Error en el rollback de vehiculo: " + ex.getMessage());
                 }
             }
-            System.err.println("Error al insertar vehículo en la base de datos: " + e.getMessage());
+            System.err.println("Error al insertar vehiculo en la base de datos: " + e.getMessage());
         } finally {
             try {
                 if (pstmt != null) pstmt.close();
                 if (conn != null) conn.close();
             } 
             catch (SQLException e) {
-                System.err.println("Error al cerrar canales de conexión: " + e.getMessage());
+                System.err.println("Error al cerrar canales de conexion: " + e.getMessage());
             }
         }
         return false;

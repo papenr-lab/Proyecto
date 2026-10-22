@@ -23,7 +23,7 @@ public class MenuPrincipal extends JFrame {
         modeloTabla = new DefaultTableModel(columnas, 0);
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Reportes Obligatorios", crearPanelTabla());
-        tabbedPane.addTab("Órdenes", new PanelOrdenesTrabajo());
+        tabbedPane.addTab("Ordenes", crearPanelOrdenes());
         tabbedPane.addTab("Reportes y Consultas", new PanelReportes());
 
         add(tabbedPane, BorderLayout.CENTER);
@@ -53,9 +53,7 @@ public class MenuPrincipal extends JFrame {
     }
 
     private JPanel crearPanelOrdenes() {
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Modulo de Ordenes de Trabajo y Repuestos"));
-        return panel;
+        return new PanelOrdenesTrabajo();
     }
 
     private void cargarDatosDePrueba() {

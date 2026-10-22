@@ -9,6 +9,14 @@ import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 import java.io.FileWriter;
 import java.io.IOException;
+import dao.ClienteDAO;
+import dao.MecanicoDAO;
+import dao.OrdenDAO;
+import dao.RepuestoDAO;
+import dao.ServicioDAO;
+import dao.VehiculoDAO;
+import Modelo.Servicio;
+import java.util.List;
 
 public class MenuPrincipal extends JFrame {
     private final JTabbedPane tabbedPane;
@@ -57,9 +65,21 @@ public class MenuPrincipal extends JFrame {
     }
 
     private void cargarDatosDePrueba() {
-        modeloTabla.addRow(new Object[]{"1", "Cambio de aceite", "Mano de obra", "Q100.00", "Disponible"});
-        modeloTabla.addRow(new Object[]{"101", "Filtro de Aceite", "Filtro sintético", "Q75.00", "19 unidades"});
+         modeloTabla.setRowCount(0);
+    
+    ServicioDAO servicioDAO = new ServicioDAO();
+    java.util.List<Modelo.Servicio> listaServicios = servicioDAO.obtenerTodosLosServicios();
+    
+    for (Modelo.Servicio s : listaServicios) {
+        modeloTabla.addRow(new Object[]{
+            s.getIdServicio(), 
+            s.getDescripcion(), 
+            "Mano de obra", 
+            "Q" + s.getCostoManoObra(), 
+            "Disponible"
+        });
     }
+}
     
     private void exportarTablaToCSV(String rutaArchivo) {
         try (FileWriter csv = new FileWriter(rutaArchivo)) 

@@ -32,4 +32,27 @@ public class ServicioDAO {
             return false;
         }
     }
+    
+    public java.util.List<Modelo.Servicio> obtenerTodosLosServicios() {
+    java.util.List<Modelo.Servicio> lista = new java.util.ArrayList<>();
+    String sql = "SELECT id_servicio, descripcion, costo_mano_obra FROM servicio";
+    try (Connection conn = ConexionOracle.obtenerConexio();
+         PreparedStatement pst = conn.prepareStatement(sql);
+         java.sql.ResultSet rs = pst.executeQuery()) {
+        if (conn != null) {
+            while (rs.next()) {
+                Modelo.Servicio s = new Modelo.Servicio(
+                    rs.getInt("id_servicio"),
+                    rs.getString("descripcion"),
+                    rs.getDouble("costo_mano_obra")
+                );
+                lista.add(s);
+            }
+        }
+    } 
+    catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al consultar servicios: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    return lista;
+}
 }

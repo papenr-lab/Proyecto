@@ -12,72 +12,72 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MecanicoDAO {
-    public boolean registrarMecanico(String identificador, String nombre, String especialidad) {
-        String sqlVerificar = "SELECT COUNT(*) FROM mecanico WHERE identificador = ?";
-        String sqlInsertar = "INSERT INTO mecanico (identificador, nombre, especialidad) VALUES (?, ?, ?)";
-
-        try (Connection conn = ConexionOracle.obtenerConexio()) {
+    public boolean registrarMecanico(int idMecanico, String nombre, String especialidad) {
+        String sql = "INSERT INTO mecanico (id_mecanico, nombre, especialidad) VALUES (?, ?, ?)";
+        try (Connection conn = ConexionOracle.obtenerConexio();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
             if (conn == null) return false;
-            try (PreparedStatement pstVerificar = conn.prepareStatement(sqlVerificar)) {
-                pstVerificar.setString(1, identificador);
-                try (ResultSet rs = pstVerificar.executeQuery()) {
-                    if (rs.next() && rs.getInt(1) > 0) {
-                        JOptionPane.showMessageDialog(null, 
-                            "Error: Ya existe un mecánico registrado con el identificador " + identificador, 
-                            "Identificador Duplicado", JOptionPane.WARNING_MESSAGE);
-                        return false;
-                    }
-                }
-            }
-            try (PreparedStatement pstInsert = conn.prepareStatement(sqlInsertar)) {
-                pstInsert.setString(1, identificador);
-                pstInsert.setString(2, nombre);
-                pstInsert.setString(3, especialidad);
-                pstInsert.executeUpdate();
-                conn.commit();
-                return true;
-            }
-        }
-        catch (SQLException e) {
+            pst.setInt(1, idMecanico);
+            pst.setString(2, nombre);
+            pst.setString(3, especialidad);
+            pst.executeUpdate();
+            conn.commit();
+            return true;
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al registrar mecánico: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
             return false;
         }
     }
-
-    public boolean modificarMecanico(int idMecanico, String nombre, String especialidad) {
+            
+     public boolean modificarMecanico(int idMecanico, String nuevoNombre, String nuevaEspecialidad) {
         String sql = "UPDATE mecanico SET nombre = ?, especialidad = ? WHERE id_mecanico = ?";
-
-        try (Connection conn = ConexionOracle.obtenerConexio()) {
+        try (Connection conn = ConexionOracle.obtenerConexio();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
             if (conn == null) return false;
-            try (PreparedStatement pst = conn.prepareStatement(sql)) {
-                pst.setString(1, nombre);
-                pst.setString(2, especialidad);
-                pst.setInt(3, idMecanico);
-                pst.executeUpdate();
-                conn.commit();
-                return true;
-            }
-        } 
-        catch (SQLException e) {
+            pst.setString(1, nuevoNombre);
+            pst.setString(2, nuevaEspecialidad);
+            pst.setInt(3, idMecanico);
+            int filas = pst.executeUpdate();
+            conn.commit();
+            return filas > 0;
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al modificar mecánico: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
             return false;
         }
     }
     
+    public Modelo.Mecanico consultarMecanico(int idMecanico) {
+        String sql = "SELECT id_mecanico, nombre, especialidad FROM mecanico WHERE id_mecanico = ?";
+        try (Connection conn = ConexionOracle.obtenerConexio();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+            if (conn == null) return null;
+            pst.setInt(1, idMecanico);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    return new Modelo.Mecanico(
+                        String.valueOf(rs.getInt("id_mecanico")),
+                        rs.getString("nombre"),
+                        rs.getString("specialidad")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar mecánico: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+    
     public boolean eliminarMecanico(int idMecanico) {
-        String sqlVerificarOrdenes = "SELECT COUNT(*) FROM orden_trabajo WHERE id_mecanico = ?";
+        String sqlVerificar = "SELECT COUNT(*) FROM orden_trabajo WHERE id_mecanico = ?";
         String sqlEliminar = "DELETE FROM mecanico WHERE id_mecanico = ?";
-
         try (Connection conn = ConexionOracle.obtenerConexio()) {
             if (conn == null) return false;
-            try (PreparedStatement pstVerificar = conn.prepareStatement(sqlVerificarOrdenes)) {
+            try (PreparedStatement pstVerificar = conn.prepareStatement(sqlVerificar)) {
                 pstVerificar.setInt(1, idMecanico);
                 try (ResultSet rs = pstVerificar.executeQuery()) {
                     if (rs.next() && rs.getInt(1) > 0) {
                         JOptionPane.showMessageDialog(null, 
-                            "No se puede eliminar el mecánico porque tiene órdenes de trabajo asociadas.", 
+                            "No se puede eliminar el mecánico porque tiene órdenes de trabajo asignadas.", 
                             "Operación Denegada", JOptionPane.WARNING_MESSAGE);
                         return false;
                     }
@@ -89,8 +89,7 @@ public class MecanicoDAO {
                 conn.commit();
                 return true;
             }
-        } 
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }

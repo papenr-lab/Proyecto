@@ -1,3 +1,4 @@
 ID,Nombre,Tipo,Precio,Disponibilidad
-1,Cambio de aceite,Mano de obra,Q100.00,Disponible
-101,Filtro de Aceite,Filtro sintético,Q75.00,19 unidades
+1,Cambio de aceite,Mano de obra,Q100.0,Disponible
+2,Revisión de frenos,Mano de obra,Q150.0,Disponible
+3,Alineación y balanceo,Mano de obra,Q125.0,Disponible

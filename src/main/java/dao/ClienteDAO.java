@@ -41,4 +41,59 @@ public class ClienteDAO {
             return false;
         }
     }
+    
+    public boolean registrarCliente(int idCliente, String nombre) {
+    String sql = "INSERT INTO cliente (id_cliente, nombre) VALUES (?, ?)";
+    try (Connection conn = ConexionOracle.obtenerConexio();
+         PreparedStatement pst = conn.prepareStatement(sql)) {
+        if (conn == null) return false;
+        pst.setInt(1, idCliente);
+        pst.setString(2, nombre);
+        pst.executeUpdate();
+        conn.commit();
+        return true;
+    } 
+    catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al registrar cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+}
+    
+    public boolean modificarCliente(int idCliente, String nuevoNombre) {
+    String sql = "UPDATE cliente SET nombre = ? WHERE id_cliente = ?";
+    try (Connection conn = ConexionOracle.obtenerConexio();
+         PreparedStatement pst = conn.prepareStatement(sql)) {
+        if (conn == null) return false;
+        pst.setString(1, nuevoNombre);
+        pst.setInt(2, idCliente);
+        int filasAfectadas = pst.executeUpdate();
+        conn.commit();
+        return filasAfectadas > 0;
+    } 
+    catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al modificar cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+}
+
+public Modelo.Cliente consultarCliente(int idCliente) {
+    String sql = "SELECT id_cliente, nombre FROM cliente WHERE id_cliente = ?";
+    try (Connection conn = ConexionOracle.obtenerConexio();
+         PreparedStatement pst = conn.prepareStatement(sql)) {
+        if (conn == null) return null;
+        pst.setInt(1, idCliente);
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                return new Modelo.Cliente(
+                    String.valueOf(rs.getInt("id_cliente")),
+                    rs.getString("nombre")
+                );
+            }
+        }
+    } 
+    catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al consultar cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    return null;
+}
 }

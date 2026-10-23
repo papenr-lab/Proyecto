@@ -17,7 +17,7 @@ public class Repuesto {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.cantidadDisponible = cantidadDisponible;
+        this.cantidadDisponible = cantidad;
     }
     
     public double getPrecio() {
@@ -51,5 +51,12 @@ public class Repuesto {
     public void setCantidadDisponible(int cantidadDisponible) {
         this.cantidadDisponible = cantidadDisponible;
     }
+    
+    public String getDescripcion() {
+    return descripcion;
 }
 
+    public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+}
+}

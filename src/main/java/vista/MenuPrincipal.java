@@ -22,11 +22,45 @@ public class MenuPrincipal extends JFrame {
     private final JTabbedPane tabbedPane;
     private final DefaultTableModel modeloTabla;
 
-    public MenuPrincipal() {
+        public MenuPrincipal() {
         setTitle("Sistema de Gestion - Taller El Último Arranque");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menuRegistros = new JMenu("Registrar Datos");
+        JMenuItem itemClientes = new JMenuItem("Gestión de Clientes");
+        JMenuItem itemVehiculos = new JMenuItem("Gestión de Vehículos");
+        JMenuItem itemMecanicos = new JMenuItem("Gestión de Mecánicos");
+        JMenuItem itemRepuestos = new JMenuItem("Gestión de Repuestos");
+        menuRegistros.add(itemClientes);
+        menuRegistros.add(itemVehiculos);
+        menuRegistros.add(itemMecanicos);
+        menuRegistros.add(itemRepuestos);
+        menuBar.add(menuRegistros);
+        setJMenuBar(menuBar);
+        
+        itemClientes.addActionListener(e -> {
+            FrmCliente ventana = new FrmCliente();
+            ventana.setVisible(true);
+        });
+
+        itemVehiculos.addActionListener(e -> {
+            FrmVehiculo ventana = new FrmVehiculo();
+            ventana.setVisible(true);
+        });
+
+        itemMecanicos.addActionListener(e -> {
+            FrmMecanico ventana = new FrmMecanico();
+            ventana.setVisible(true);
+        });
+
+        itemRepuestos.addActionListener(e -> {
+            FrmRepuesto ventana = new FrmRepuesto();
+            ventana.setVisible(true);
+        });
+        
         String[] columnas = {"ID", "Nombre", "Tipo", "Precio", "Disponibilidad"};
         modeloTabla = new DefaultTableModel(columnas, 0);
         tabbedPane = new JTabbedPane();

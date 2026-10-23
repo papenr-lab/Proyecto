@@ -12,14 +12,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MecanicoDAO {
-    public boolean registrarMecanico(int idMecanico, String nombre, String especialidad) {
-        String sql = "INSERT INTO mecanico (id_mecanico, nombre, especialidad) VALUES (?, ?, ?)";
+        public boolean registrarMecanico(int idMecanico, String nombre, String especialidad) {
+        String sql = "INSERT INTO mecanico (id_mecanico, identificador, nombre, especialidad) VALUES (?, ?, ?, ?)";
         try (Connection conn = ConexionOracle.obtenerConexio();
              PreparedStatement pst = conn.prepareStatement(sql)) {
             if (conn == null) return false;
             pst.setInt(1, idMecanico);
-            pst.setString(2, nombre);
-            pst.setString(3, especialidad);
+            pst.setString(2, String.valueOf(idMecanico));
+            pst.setString(3, nombre);
+            pst.setString(4, especialidad);
             pst.executeUpdate();
             conn.commit();
             return true;

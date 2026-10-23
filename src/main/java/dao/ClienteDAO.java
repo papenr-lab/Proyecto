@@ -43,12 +43,13 @@ public class ClienteDAO {
     }
     
     public boolean registrarCliente(int idCliente, String nombre) {
-    String sql = "INSERT INTO cliente (id_cliente, nombre) VALUES (?, ?)";
+    String sql = "INSERT INTO cliente (id_cliente, identificador, nombre) VALUES (?, ?, ?)";
     try (Connection conn = ConexionOracle.obtenerConexio();
          PreparedStatement pst = conn.prepareStatement(sql)) {
         if (conn == null) return false;
         pst.setInt(1, idCliente);
-        pst.setString(2, nombre);
+        pst.setString(2, String.valueOf(idCliente));
+        pst.setString(3, nombre);
         pst.executeUpdate();
         conn.commit();
         return true;
